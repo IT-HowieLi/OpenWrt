@@ -34,6 +34,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: false
+  WECHAT_NOTICE: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -42,6 +43,10 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
+    - name: WeChat notification
+      if: env.WECHAT_NOTICE == 'true' && !cancelled()
+      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=OpenWrt开始编译
+    
     - name: Checkout
       uses: actions/checkout@master
 
@@ -139,3 +144,7 @@ jobs:
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
+        
+    - name: WeChat notification
+      if: steps.organize.outputs.status == 'success' && env.WECHAT_NOTICE == 'true' && !cancelled()
+      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=OpenWrt编译完成
