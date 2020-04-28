@@ -10,6 +10,7 @@ name: Build OpenWrt
 
 on:
   repository_dispatch:
+    types: BuildOpenWrt
   release:
     types: published
   push:
