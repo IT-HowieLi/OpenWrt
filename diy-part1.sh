@@ -15,7 +15,11 @@ sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 #sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
 
 # Modify Default Theme
-sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+sed -i '/exit 0/i uci batch <<-EOF' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit 0/i    set luci.themes.Argon=/luci-static/argon' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit 0/i    set luci.main.mediaurlbase=/luci-static/argon' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit 0/i    commit luci' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit 0/i EOF' package/lean/default-settings/files/zzz-default-settings
 
 # Update Luci theme argon  
 rm -rf package/lean/luci-theme-argon  
