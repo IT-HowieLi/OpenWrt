@@ -36,7 +36,8 @@ git pull origin master
 git branch --set-upstream-to=origin/master master
 cd -
 
-# integration clash core 实现编译更新后直接可用，不用手动下载clash内核
+# integration clash core 实现编译更新后直接可用，不用手动下载clashr内核
+# https://github.com/frainzy1477/clashrdev
 curl -sL -m 30 --retry 2 https://github.com/frainzy1477/clashrdev/releases/download/v0.19.0.2/clashr-linux-amd64-v0.19.0.2.gz -o /tmp/clash.gz
 gunzip -c clash.gz > /tmp/clash >/dev/null 2>&1
 chmod +x /tmp/clash >/dev/null 2>&1
